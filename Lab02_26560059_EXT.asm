@@ -18,12 +18,11 @@ board: .word 0, 0, 0, 0, 0, 0, 0, 0, 0
 main:
     la   $s0, board           # $s0 = base address of board
 
-    # --- Store mark 1 (X) at cell (1, 2) ---
     addi $s1, $zero, 1        # r = 1
     addi $s2, $zero, 2        # c = 2
     addi $t3, $zero, 1        # mark = 1
 
-    # compute 3 * r = 2 * r + r
+
     sll  $t1, $s1, 1          # $t1 = 2 * r
     add  $t1, $t1, $s1        # $t1 = 3 * r
     # add column c: word index = 3 * r + c
@@ -34,19 +33,17 @@ main:
     add  $t0, $s0, $t1        # $t0 = address of board[r][c]
     sw   $t3, 0($t0)          # board[1][2] = 1
 
-    # --- Store mark 2 (O) at cell (2, 0) ---
+
     addi $s1, $zero, 2        # r = 2
     addi $s2, $zero, 0        # c = 0
     addi $t3, $zero, 2        # mark = 2
 
-    # compute 3 * r = 2 * r + r
+
     sll  $t1, $s1, 1          # $t1 = 2 * r
     add  $t1, $t1, $s1        # $t1 = 3 * r
-    # add column c: word index = 3 * r + c
     add  $t1, $t1, $s2        # $t1 = 3 * r + c
     # byte offset = 4 * (3 * r + c)
     sll  $t1, $t1, 2          # $t1 = 4 * (3 * r + c)
-    # effective address = board + byte offset
     add  $t0, $s0, $t1        # $t0 = address of board[r][c]
     sw   $t3, 0($t0)          # board[2][0] = 2
 
